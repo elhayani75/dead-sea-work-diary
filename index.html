@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>יומן עבודה - רשות ניקוז ים המלח</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --line:#d8e0ea;
+      --text:#16202a;
+      --muted:#5b6b7c;
+      --primary:#0b5cab;
+      --primary-2:#0a4b8a;
+      --danger:#c0392b;
+      --ok:#1e8449;
+      --shadow:0 8px 24px rgba(0,0,0,.08);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:16px 14px 40px;
+    }
+    .top{
+      background:linear-gradient(135deg,#0b5cab,#0e76d3);
+      color:#fff;
+      border-radius:20px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      margin-bottom:16px;
+    }
+    .top h1{
+      margin:0;
+      font-size:26px;
+    }
+    .top p{
+      margin:8px 0 0;
+      opacity:.95;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:16px;
+      margin-bottom:16px;
+    }
+    .card h2{
+      margin:0 0 14px;
+      font-size:20px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .full{grid-column:1/-1}
+    label{
+      display:block;
+      margin-bottom:6px;
+      font-weight:700;
+    }
+    input, select, textarea, button{
+      font:inherit;
+    }
+    input[type="text"], input[type="number"], input[type="date"], select, textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+      padding:12px 14px;
+      outline:none;
+    }
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 3px rgba(11,92,171,.12);
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .muted{
+      color:var(--muted);
+      font-size:14px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      background:#eef5fd;
+      color:var(--primary-2);
+      border-radius:999px;
+      font-size:13px;
+      border:1px solid #cfe0f5;
+    }
+    .btn{
+      border:none;
+      border-radius:12px;
+      padding:12px 16px;
+      cursor:pointer;
+      background:var(--primary);
+      color:#fff;
+      font-weight:700;
+    }
+    .btn:hover{background:var(--primary-2)}
+    .btn.secondary{
+      background:#eef4fb;
+      color:var(--primary-2);
+      border:1px solid #cfe0f5;
+    }
+    .btn.danger{
+      background:var(--danger);
+    }
+    .btn.ghost{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+    .section-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .list-box{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:10px;
+    }
+    .item{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background:#fafcff;
+    }
+    .item-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:8px;
+    }
+    .item-title{
+      font-weight:700;
+    }
+    .thumbs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .thumb{
+      position:relative;
+      width:110px;
+      height:110px;
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#fff;
+    }
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .thumb button{
+      position:absolute;
+      top:6px;
+      left:6px;
+      width:28px;
+      height:28px;
+      border:none;
+      border-radius:50%;
+      background:rgba(0,0,0,.65);
+      color:#fff;
+      cursor:pointer;
+      font-weight:700;
+    }
+    #signaturePad{
+      width:100%;
+      height:220px;
+      background:#fff;
+      border:1px dashed #95a5b3;
+      border-radius:14px;
+      touch-action:none;
+      display:block;
+    }
+    .actions{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+    }
+    .small{
+      font-size:13px;
+    }
+    .report{
+      background:#fff;
+      color:#000;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:20px;
+      margin-top:18px;
+    }
+    .report h3{
+      margin:0 0 14px;
+      text-align:center;
+      font-size:24px;
+    }
+    .report-block{
+      border:1px solid #ccd5de;
+      border-radius:12px;
+      padding:12px;
+      margin-bottom:12px;
+    }
+    .report-block h4{
+      margin:0 0 8px;
+      font-size:18px;
+    }
+    .report-photos{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .report-photos img{
+      width:180px;
+      max-width:100%;
+      border:1px solid #ccd5de;
+      border-radius:10px;
+    }
+    .signature-preview{
+      margin-top:10px;
+      max-width:280px;
+      border:1px solid #ccd5de;
+      border-radius:10px;
+      background:#fff;
+      padding:8px;
+    }
+    .total-box{
+      background:#f5fbf7;
+      border:1px solid #cdebd5;
+      color:var(--ok);
+      border-radius:12px;
+      padding:12px 14px;
+      font-weight:700;
+    }
+    .logo-box{
+      text-align:center;
+      margin-bottom:12px;
+    }
+    .logo-box img{
+      max-width:180px;
+      max-height:120px;
+      object-fit:contain;
+    }
+    @media (max-width:720px){
+      .grid{grid-template-columns:1fr}
+      .actions{grid-template-columns:1fr}
+      .top h1{font-size:22px}
+    }
+    @media print{
+      body{
+        background:#fff;
+      }
+      .top, .card:not(.printable), .non-print{
+        display:none !important;
+      }
+      .wrap{
+        max-width:none;
+        padding:0;
+        margin:0;
+      }
+      .report{
+        display:block !important;
+        border:none;
+        box-shadow:none;
+        margin:0;
+        padding:0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1>יומן עבודה - רשות ניקוז ים המלח</h1>
+      <p>טופס וובי לשימוש מהאייפון או מכל דפדפן</p>
+    </div>
+
+    <div class="card">
+      <div class="logo-box">
+        <img id="logoPreview" alt="לוגו" style="display:none;">
+        <div id="logoHint" class="muted">אפשר להעלות כאן את לוגו הרשות פעם אחת, והוא יישמר בדפדפן.</div>
+      </div>
+      <div class="row">
+        <input id="logoInput" type="file" accept="image/*">
+        <button class="btn secondary" id="clearLogoBtn" type="button">נקה לוגו</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>פרטי בסיס</h2>
+      <div class="grid">
+        <div>
+          <label for="date">תאריך</label>
+          <input id="date" type="date">
+        </div>
+        <div>
+          <label for="siteName">שם האתר</label>
+          <input id="siteName" type="text" placeholder="למשל: נחל דוד">
+        </div>
+        <div class="full">
+          <div class="total-box">סה״כ עובדים באתר: <span id="workersTotal">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <h2 style="margin:0;">סוגי עובדים באתר</h2>
+        <button class="btn" type="button" id="addWorkerBtn">הוסף סוג עובדים</button>
+      </div>
+      <div id="workersList" class="list-box"></div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;">
+        <h2 style="margin:0;">כלים הנדסיים באתר</h2>
+        <button class="btn" type="button" id="addToolBtn">הוסף כלי הנדסי</button>
+      </div>
+      <div id="toolsList" class="list-box"></div>
+    </div>
+
+    <div class="card">
+      <h2>הערות ותיאור עבודה</h2>
+      <div class="grid">
+        <div class="full">
+          <label for="supervisorNotes">הערות מפקח</label>
+          <textarea id="supervisorNotes"></textarea>
+        </div>
+        <div class="full">
+          <label for="contractorNotes">הערות הקבלן המבצע</label>
+          <textarea id="contractorNotes"></textarea>
+        </div>
+        <div class="full">
+          <label for="workDescription">תיאור העבודה הנעשית באותו היום</label>
+          <textarea id="workDescription"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>תמונות מהשטח</h2>
+      <div class="row">
+        <input id="photosInput" type="file" accept="image/*" multiple>
+      </div>
+      <div id="photosList" class="thumbs"></div>
+    </div>
+
+    <div class="card">
+      <h2>חתימת מפקח</h2>
+      <canvas id="signaturePad"></canvas>
+      <div class="section-actions">
+        <button class="btn secondary" type="button" id="clearSignatureBtn">נקה חתימה</button>
+      </div>
+    </div>
+
+    <div class="card non-print">
+      <h2>פעולות</h2>
+      <div class="actions">
+        <button class="btn" type="button" id="saveDraftBtn">שמור טיוטה בדפדפן</button>
+        <button class="btn secondary" type="button" id="loadDraftBtn">טען טיוטה</button>
+        <button class="btn secondary" type="button" id="buildReportBtn">הכן דוח להדפסה</button>
+        <button class="btn" type="button" id="printBtn">הדפס / שמור כ-PDF</button>
+        <button class="btn danger" type="button" id="clearAllBtn">נקה הכול</button>
+      </div>
+      <p class="muted small" style="margin-top:12px;">
+        שמירת הטיוטה נשמרת במכשיר בדפדפן באמצעות Local Storage. היא זמינה כל עוד לא נמחקו נתוני האתר. 
+      </p>
+    </div>
+
+    <div id="report" class="report printable" style="display:none;"></div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'dead_sea_work_diary_web_v1';
+    const LOGO_KEY = 'dead_sea_work_diary_logo_v1';
+    const workerOptions = [
+      'צוות מדידה',
+      'מנהל עבודה',
+      'פועל פשוט',
+      'רתך',
+      'מפעיל כלי צמ"ה',
+      'נהג',
+      'חשמלאי',
+      'מסגר',
+      'אחר'
+    ];
+
+    const el = {
+      date: document.getElementById('date'),
+      siteName: document.getElementById('siteName'),
+      workersList: document.getElementById('workersList'),
+      toolsList: document.getElementById('toolsList'),
+      workersTotal: document.getElementById('workersTotal'),
+      supervisorNotes: document.getElementById('supervisorNotes'),
+      contractorNotes: document.getElementById('contractorNotes'),
+      workDescription: document.getElementById('workDescription'),
+      photosInput: document.getElementById('photosInput'),
+      photosList: document.getElementById('photosList'),
+      signaturePad: document.getElementById('signaturePad'),
+      report: document.getElementById('report'),
+      logoInput: document.getElementById('logoInput'),
+      logoPreview: document.getElementById('logoPreview'),
+      logoHint: document.getElementById('logoHint')
+    };
+
+    let workers = [];
+    let tools = [];
+    let photos = [];
+    let drawing = false;
+    let hasSignature = false;
+
+    function todayForInput() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function inputDateToHebrew(value) {
+      if (!value) return '';
+      const [y, m, d] = value.split('-');
+      return `${d}/${m}/${y}`;
+    }
+
+    function escapeHtml(str = '') {
+      return str
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;');
+    }
+
+    function saveLogo(dataUrl) {
+      localStorage.setItem(LOGO_KEY, dataUrl);
+      renderLogo();
+    }
+
+    function renderLogo() {
+      const logo = localStorage.getItem(LOGO_KEY);
+      if (logo) {
+        el.logoPreview.src = logo;
+        el.logoPreview.style.display = 'inline-block';
+        el.logoHint.style.display = 'none';
+      } else {
+        el.logoPreview.style.display = 'none';
+        el.logoHint.style.display = 'block';
+      }
+    }
+
+    function addWorker(data = {}) {
+      workers.push({
+        type: data.type || '',
+        customType: data.customType || '',
+        count: data.count || ''
+      });
+      renderWorkers();
+    }
+
+    function removeWorker(index) {
+      workers.splice(index, 1);
+      if (workers.length === 0) addWorker();
+      renderWorkers();
+    }
+
+    function addTool(data = {}) {
+      tools.push({
+        type: data.type || '',
+        count: data.count || ''
+      });
+      renderTools();
+    }
+
+    function removeTool(index) {
+      tools.splice(index, 1);
+      if (tools.length === 0) addTool();
+      renderTools();
+    }
+
+    function updateWorkersTotal() {
+      const total = workers.reduce((sum, item) => {
+        return sum + (parseInt(item.count || '0', 10) || 0);
+      }, 0);
+      el.workersTotal.textContent = total;
+    }
+
+    function renderWorkers() {
+      el.workersList.innerHTML = '';
+      workers.forEach((worker, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'item';
+        wrapper.innerHTML = `
+          <div class="item-head">
+            <div class="item-title">סוג עובד ${index + 1}</div>
+            <button class="btn danger" type="button" data-remove-worker="${index}">מחק</button>
+          </div>
+          <div class="grid">
+            <div>
+              <label>בחר סוג עובדים</label>
+              <select data-worker-type="${index}">
+                <option value="">בחר</option>
+                ${workerOptions.map(opt => `<option value="${opt}" ${worker.type === opt ? 'selected' : ''}>${opt}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label>כמות</label>
+              <input data-worker-count="${index}" type="number" min="0" inputmode="numeric" value="${escapeHtml(worker.count)}">
+            </div>
+            <div class="full" data-custom-wrap="${index}" style="${worker.type === 'אחר' ? '' : 'display:none;'}">
+              <label>הזן סוג עובד</label>
+              <input data-worker-custom="${index}" type="text" value="${escapeHtml(worker.customType)}">
+            </div>
+          </div>
+        `;
+        el.workersList.appendChild(wrapper);
+      });
+
+      el.workersList.querySelectorAll('[data-remove-worker]').forEach(btn => {
+        btn.addEventListener('click', () => removeWorker(Number(btn.dataset.removeWorker)));
+      });
+
+      el.workersList.querySelectorAll('[data-worker-type]').forEach(select => {
+        select.addEventListener('change', e => {
+          const index = Number(e.target.dataset.workerType);
+          workers[index].type = e.target.value;
+          if (workers[index].type !== 'אחר') workers[index].customType = '';
+          renderWorkers();
+        });
+      });
+
+      el.workersList.querySelectorAll('[data-worker-count]').forEach(input => {
+        input.addEventListener('input', e => {
+          const index = Number(e.target.dataset.workerCount);
+          workers[index].count = e.target.value;
+          updateWorkersTotal();
+        });
+      });
+
+      el.workersList.querySelectorAll('[data-worker-custom]').forEach(input => {
+        input.addEventListener('input', e => {
+          const index = Number(e.target.dataset.workerCustom);
+          workers[index].customType = e.target.value;
+        });
+      });
+
+      updateWorkersTotal();
+    }
+
+    function renderTools() {
+      el.toolsList.innerHTML = '';
+      tools.forEach((tool, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'item';
+        wrapper.innerHTML = `
+          <div class="item-head">
+            <div class="item-title">כלי ${index + 1}</div>
+            <button class="btn danger" type="button" data-remove-tool="${index}">מחק</button>
+          </div>
+          <div class="grid">
+            <div>
+              <label>סוג הכלי ההנדסי</label>
+              <input data-tool-type="${index}" type="text" value="${escapeHtml(tool.type)}">
+            </div>
+            <div>
+              <label>כמות</label>
+              <input data-tool-count="${index}" type="number" min="0" inputmode="numeric" value="${escapeHtml(tool.count)}">
+            </div>
+          </div>
+        `;
+        el.toolsList.appendChild(wrapper);
+      });
+
+      el.toolsList.querySelectorAll('[data-remove-tool]').forEach(btn => {
+        btn.addEventListener('click', () => removeTool(Number(btn.dataset.removeTool)));
+      });
+
+      el.toolsList.querySelectorAll('[data-tool-type]').forEach(input => {
+        input.addEventListener('input', e => {
+          const index = Number(e.target.dataset.toolType);
+          tools[index].type = e.target.value;
+        });
+      });
+
+      el.toolsList.querySelectorAll('[data-tool-count]').forEach(input => {
+        input.addEventListener('input', e => {
+          const index = Number(e.target.dataset.toolCount);
+          tools[index].count = e.target.value;
+        });
+      });
+    }
+
+    function renderPhotos() {
+      el.photosList.innerHTML = '';
+      photos.forEach((src, index) => {
+        const div = document.createElement('div');
+        div.className = 'thumb';
+        div.innerHTML = `
+          <img src="${src}" alt="תמונה ${index + 1}">
+          <button type="button" data-remove-photo="${index}">×</button>
+        `;
+        el.photosList.appendChild(div);
+      });
+
+      el.photosList.querySelectorAll('[data-remove-photo]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          photos.splice(Number(btn.dataset.removePhoto), 1);
+          renderPhotos();
+        });
+      });
+    }
+
+    function getSignatureDataUrl() {
+      if (!hasSignature) return '';
+      return el.signaturePad.toDataURL('image/png');
+    }
+
+    function clearSignaturePad() {
+      const ctx = el.signaturePad.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, el.signaturePad.width, el.signaturePad.height);
+      hasSignature = false;
+    }
+
+    function resizeCanvas() {
+      const ratio = window.devicePixelRatio || 1;
+      const rect = el.signaturePad.getBoundingClientRect();
+      el.signaturePad.width = rect.width * ratio;
+      el.signaturePad.height = rect.height * ratio;
+      const ctx = el.signaturePad.getContext('2d');
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      clearSignaturePad();
+    }
+
+    function pointFromEvent(e) {
+      const rect = el.signaturePad.getBoundingClientRect();
+      const touch = e.touches ? e.touches[0] : e;
+      return {
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top
+      };
+    }
+
+    function startDraw(e) {
+      drawing = true;
+      hasSignature = true;
+      const ctx = el.signaturePad.getContext('2d');
+      const p = pointFromEvent(e);
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#0b5cab';
+      e.preventDefault();
+    }
+
+    function moveDraw(e) {
+      if (!drawing) return;
+      const ctx = el.signaturePad.getContext('2d');
+      const p = pointFromEvent(e);
+      ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      e.preventDefault();
+    }
+
+    function endDraw() {
+      drawing = false;
+    }
+
+    function validateForm() {
+      if (!el.date.value) return alert('יש לבחור תאריך'), false;
+      if (!el.siteName.value.trim()) return alert('יש להזין שם אתר'), false;
+      if (!el.workDescription.value.trim()) return alert('יש להזין תיאור עבודה'), false;
+
+      for (const worker of workers) {
+        if (!worker.type) return alert('יש לבחור סוג עובדים בכל שורה'), false;
+        if (worker.type === 'אחר' && !worker.customType.trim()) {
+          return alert('יש להזין סוג עובד כאשר נבחר "אחר"'), false;
+        }
+        if (worker.count === '' || Number(worker.count) < 0) {
+          return alert('יש להזין כמות תקינה לעובדים'), false;
+        }
+      }
+
+      for (const tool of tools) {
+        if (!tool.type.trim()) return alert('יש להזין סוג כלי הנדסי'), false;
+        if (tool.count === '' || Number(tool.count) < 0) {
+          return alert('יש להזין כמות תקינה לכלי הנדסי'), false;
+        }
+      }
+
+      return true;
+    }
+
+    function currentData() {
+      return {
+        date: el.date.value,
+        siteName: el.siteName.value.trim(),
+        workers,
+        tools,
+        supervisorNotes: el.supervisorNotes.value.trim(),
+        contractorNotes: el.contractorNotes.value.trim(),
+        workDescription: el.workDescription.value.trim(),
+        photos,
+        signature: getSignatureDataUrl(),
+        logo: localStorage.getItem(LOGO_KEY) || ''
+      };
+    }
+
+    function saveDraft() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData()));
+      alert('הטיוטה נשמרה בדפדפן');
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        alert('לא נמצאה טיוטה שמורה');
+        return;
+      }
+      const data = JSON.parse(raw);
+
+      el.date.value = data.date || todayForInput();
+      el.siteName.value = data.siteName || '';
+      workers = Array.isArray(data.workers) && data.workers.length ? data.workers : [];
+      tools = Array.isArray(data.tools) && data.tools.length ? data.tools : [];
+      el.supervisorNotes.value = data.supervisorNotes || '';
+      el.contractorNotes.value = data.contractorNotes || '';
+      el.workDescription.value = data.workDescription || '';
+      photos = Array.isArray(data.photos) ? data.photos : [];
+
+      if (!workers.length) addWorker();
+      if (!tools.length) addTool();
+      renderWorkers();
+      renderTools();
+      renderPhotos();
+
+      clearSignaturePad();
+      if (data.signature) {
+        const img = new Image();
+        img.onload = () => {
+          const ctx = el.signaturePad.getContext('2d');
+          clearSignaturePad();
+          ctx.drawImage(img, 0, 0, el.signaturePad.width / (window.devicePixelRatio || 1), el.signaturePad.height / (window.devicePixelRatio || 1));
+          hasSignature = true;
+        };
+        img.src = data.signature;
+      }
+
+      if (data.logo) {
+        localStorage.setItem(LOGO_KEY, data.logo);
+        renderLogo();
+      }
+
+      alert('הטיוטה נטענה');
+    }
+
+    function clearAll() {
+      if (!confirm('לנקות את כל הטופס?')) return;
+      el.date.value = todayForInput();
+      el.siteName.value = '';
+      el.supervisorNotes.value = '';
+      el.contractorNotes.value = '';
+      el.workDescription.value = '';
+      workers = [];
+      tools = [];
+      photos = [];
+      addWorker();
+      addTool();
+      renderPhotos();
+      clearSignaturePad();
+      el.report.style.display = 'none';
+      localStorage.removeItem(STORAGE_KEY);
+    }
+
+    function buildReport() {
+      if (!validateForm()) return;
+
+      const data = currentData();
+      const totalWorkers = workers.reduce((sum, item) => sum + (parseInt(item.count || '0', 10) || 0), 0);
+
+      const workersHtml = data.workers.map(item => {
+        const type = item.type === 'אחר' ? item.customType : item.type;
+        return `<li>${escapeHtml(type)} | כמות: ${escapeHtml(item.count)}</li>`;
+      }).join('');
+
+      const toolsHtml = data.tools.map(item => {
+        return `<li>${escapeHtml(item.type)} | כמות: ${escapeHtml(item.count)}</li>`;
+      }).join('');
+
+      const photosHtml = data.photos.length
+        ? `<div class="report-photos">${data.photos.map(src => `<img src="${src}" alt="תמונה">`).join('')}</div>`
+        : '<div>לא נוספו תמונות</div>';
+
+      const signatureHtml = data.signature
+        ? `<img class="signature-preview" src="${data.signature}" alt="חתימה">`
+        : '<div>לא הוזנה חתימה</div>';
+
+      const logoHtml = data.logo
+        ? `<div style="text-align:center;margin-bottom:12px;"><img src="${data.logo}" alt="לוגו" style="max-width:180px;max-height:110px;"></div>`
+        : '';
+
+      el.report.innerHTML = `
+        ${logoHtml}
+        <h3>יומן עבודה - רשות ניקוז ים המלח</h3>
+
+        <div class="report-block">
+          <h4>פרטי יום העבודה</h4>
+          <div>תאריך: ${escapeHtml(inputDateToHebrew(data.date))}</div>
+          <div>שם האתר: ${escapeHtml(data.siteName)}</div>
+          <div>מספר עובדים באתר: ${totalWorkers}</div>
+        </div>
+
+        <div class="report-block">
+          <h4>סוגי עובדים</h4>
+          <ul>${workersHtml}</ul>
+        </div>
+
+        <div class="report-block">
+          <h4>כלים הנדסיים</h4>
+          <ul>${toolsHtml}</ul>
+        </div>
+
+        <div class="report-block">
+          <h4>הערות מפקח</h4>
+          <div>${escapeHtml(data.supervisorNotes || 'ללא הערות').replaceAll('\n','<br>')}</div>
+        </div>
+
+        <div class="report-block">
+          <h4>הערות הקבלן המבצע</h4>
+          <div>${escapeHtml(data.contractorNotes || 'ללא הערות').replaceAll('\n','<br>')}</div>
+        </div>
+
+        <div class="report-block">
+          <h4>תיאור העבודה הנעשית באותו היום</h4>
+          <div>${escapeHtml(data.workDescription).replaceAll('\n','<br>')}</div>
+        </div>
+
+        <div class="report-block">
+          <h4>תמונות מהשטח</h4>
+          ${photosHtml}
+        </div>
+
+        <div class="report-block">
+          <h4>חתימת מפקח</h4>
+          ${signatureHtml}
+        </div>
+
+        <div class="muted">נוצר בתאריך: ${new Date().toLocaleString('he-IL')}</div>
+      `;
+
+      el.report.style.display = 'block';
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function printReport() {
+      buildReport();
+      setTimeout(() => window.print(), 150);
+    }
+
+    document.getElementById('addWorkerBtn').addEventListener('click', () => addWorker());
+    document.getElementById('addToolBtn').addEventListener('click', () => addTool());
+    document.getElementById('saveDraftBtn').addEventListener('click', saveDraft);
+    document.getElementById('loadDraftBtn').addEventListener('click', loadDraft);
+    document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+    document.getElementById('buildReportBtn').addEventListener('click', buildReport);
+    document.getElementById('printBtn').addEventListener('click', printReport);
+    document.getElementById('clearSignatureBtn').addEventListener('click', clearSignaturePad);
+    document.getElementById('clearLogoBtn').addEventListener('click', () => {
+      localStorage.removeItem(LOGO_KEY);
+      renderLogo();
+    });
+
+    el.photosInput.addEventListener('change', async e => {
+      const files = Array.from(e.target.files || []);
+      for (const file of files) {
+        const src = await fileToDataUrl(file);
+        photos.push(src);
+      }
+      renderPhotos();
+      e.target.value = '';
+    });
+
+    el.logoInput.addEventListener('change', async e => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      const src = await fileToDataUrl(file);
+      saveLogo(src);
+      e.target.value = '';
+    });
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    el.signaturePad.addEventListener('mousedown', startDraw);
+    el.signaturePad.addEventListener('mousemove', moveDraw);
+    window.addEventListener('mouseup', endDraw);
+
+    el.signaturePad.addEventListener('touchstart', startDraw, { passive:false });
+    el.signaturePad.addEventListener('touchmove', moveDraw, { passive:false });
+    window.addEventListener('touchend', endDraw);
+
+    window.addEventListener('resize', resizeCanvas);
+
+    function init() {
+      el.date.value = todayForInput();
+      addWorker();
+      addTool();
+      resizeCanvas();
+      renderLogo();
+    }
+
+    init();
+  </script>
+</body>
+</html>
